@@ -24,35 +24,39 @@ client.connect().catch(console.error)
 client.on('message', (channel, user, message, self) => {
 	if (self) return
 
-	const { username } = user
+	try {
+		const { username } = user
 
-	// Handling messages, that tag bot
-	if (tagsBot(message)) {
-		const messageCategory = Object.entries(messageCategoriesMatcher).find(
-			([key, regex]) => regex.test(message)
-		)[0]
+		// Handling messages, that tag bot
+		if (tagsBot(message)) {
+			const messageCategory = Object.entries(messageCategoriesMatcher).find(
+				([key, regex]) => regex.test(message)
+			)[0]
 
-		if (!responseDictionary[messageCategory]) return
-		client.say(channel, responseDictionary[messageCategory](username))
-	}
+			if (!responseDictionary[messageCategory]) return
+			client.say(channel, responseDictionary[messageCategory](username))
+		}
 
-	// Command handling
-	if (isCommand(message)) {
-		executeCommand(message, user, client, channel)
-	}
+		// Command handling
+		if (isCommand(message)) {
+			executeCommand(message, user, client, channel)
+		}
 
-	// Special interactions
-	if (message == 'zaludE') {
-		client.say(channel, `@${username} zaludE`)
-	}
-	if (message == `agr1 agr2`) {
-		client.say(channel, `agr3 agr4`)
-	}
-	if (message.includes(' žalud ')) {
-		client.say(channel, `@${username} zaludWeird`)
-	}
-	if (message.includes('žalud')) {
-		client.say(channel, `@${username} zaludWeird`)
+		// Special interactions
+		if (message == 'zaludE') {
+			client.say(channel, `@${username} zaludE`)
+		}
+		if (message == `agr1 agr2`) {
+			client.say(channel, `agr3 agr4`)
+		}
+		if (message.includes(' žalud ')) {
+			client.say(channel, `@${username} zaludWeird`)
+		}
+		if (message.includes('žalud')) {
+			client.say(channel, `@${username} zaludWeird`)
+		}
+	} catch (err) {
+		console.log(err)
 	}
 })
 
