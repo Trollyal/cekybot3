@@ -21,6 +21,10 @@ client.connect().catch(console.error)
 //   client.say(channel, `${username} nojo zmrde už jsem tady!`);
 //});
 
+client.on('subscription', function (channel, username, methods) {
+	client.say(channel, username + 'kristova noho, dík za sub')
+})
+
 client.on('message', (channel, user, message, self) => {
 	if (self) return
 
@@ -90,10 +94,10 @@ const commands = {
 			`!zalud, !hodnoceni, !madmong, !velkyagrLULE, !gn <jmeno>, !mlady <jmeno>, !vtip, !cas :)`
 		)
 	},
-	zalud: ({ client, channel, rest }) => {
-		const num = rollDice()
-		client.say(channel, `Tvrzení, že ${rest}, je na ${num}% správné zaludE`)
-	},
+	// zalud: ({ client, channel, rest }) => {
+	// 	const num = rollDice()
+	// 	client.say(channel, `Tvrzení, že ${rest}, je na ${num}% správné zaludE`)
+	// },
 	hodnoceni: ({ client, channel }) => {
 		const num = hraxd()
 		client.say(channel, `Tato hra je ${num}/10 zalud5Head`)
@@ -132,16 +136,21 @@ const commands = {
 		}
 		client.say(channel, `Kristova noho🦶, ono už je ${clock()}`)
 	},
+	kdoudelalcekybota: ({ client, channel, user }) => {
+		client.say(channel, `@${user.username} ctrlv.cz/NeXE`)
+	},
 }
 
 const messageCategoriesMatcher = {
 	greeting: /(ahoj)|(čau)|(čus)|(zdar)|(nazdar)/,
 	offensive: /(zabij se)|(mrdko)|(chc[í|i]pni)/,
+	hug: /(dankHug)/,
 }
 
 const responseDictionary = {
 	greeting: (username) => `@${username}, čau! zaludKamo`,
 	offensive: (username) => 'PoroSad',
+	hug: (username) => `@${username} dankHug`,
 }
 
 // Helper functions
