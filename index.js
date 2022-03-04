@@ -173,5 +173,7 @@ function executeCommand(command, user, client, channel) {
 	const commandName = tokens[0].substr(1)
 	const rest = tokens.slice(1).join(' ')
 
-	commands[commandName]({ user, client, channel, rest })
+	if (!!commands[commandName]) {
+		commands[commandName]({ user, client, channel, rest })
+	}
 }
