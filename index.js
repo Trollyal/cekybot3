@@ -17,6 +17,25 @@ const options = {
 const client = new tmi.Client(options)
 client.connect().catch(console.error)
 
+Date.prototype.timeNow = function (includeSeconds = true) {
+	const hours = prependZeroToTime(this.getHours())
+	const minutes = prependZeroToTime(this.getMinutes())
+	const seconds = prependZeroToTime(this.getSeconds())
+
+	return `${hours}:${minutes}${includeSeconds ? `:${seconds}` : ''}`
+}
+
+const options = {
+	timeZone: 'Europe/Prague',
+	year: 'numeric',
+	month: 'numeric',
+	day: 'numeric',
+	hour: 'numeric',
+	minute: 'numeric',
+	second: 'numeric',
+}
+const dateFormatter = new Intl.DateTimeFormat([], options)
+
 //client.on('connected', () => {
 //   client.say(channel, `${username} nojo zmrde už jsem tady!`);
 //});
@@ -124,17 +143,10 @@ const commands = {
 		client.say(channel, getRandomItemFromArray(jokes))
 	},
 	cas: ({ client, channel }) => {
-		const clock = () => {
-			let date = new Date()
-			let hrs = date.getHours()
-			let mins = date.getMinutes()
-			let secs = date.getSeconds()
-			let time = `${hrs}:${mins}`
-			// log the time in console
-			console.log(time)
-			return time
-		}
-		client.say(channel, `Kristova noho🦶, ono už je ${clock()}`)
+		const currentdate = dateFormatter.format(new Date())
+		const datetime = new Date().timeNow(false)
+
+		client.say(channel, `kristova noho🦶, ono už je ${datetime}`)
 	},
 	kdoudelalcekybota: ({ client, channel, user }) => {
 		client.say(channel, `@${user.username} ctrlv.cz/NeXE`)
@@ -175,6 +187,10 @@ function tagsBot(message) {
 function getRandomItemFromArray(array) {
 	const randomIndex = Math.floor(Math.random() * array.length)
 	return array[randomIndex]
+}
+
+function prependZeroToTime(number) {
+	return number >= 10 ? number.toString() : `0${number.toString()}`
 }
 
 function executeCommand(command, user, client, channel) {
