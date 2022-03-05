@@ -1,7 +1,7 @@
 const tmi = require('tmi.js'),
 	{ channel, username, password } = require('./settings.json')
 
-const options = {
+const tmiOptions = {
 	options: { debug: true },
 	connection: {
 		reconnect: true,
@@ -13,8 +13,18 @@ const options = {
 	},
 	channels: [channel],
 }
+const dateFormatterOptions = {
+	timeZone: 'Europe/Prague',
+	year: 'numeric',
+	month: 'numeric',
+	day: 'numeric',
+	hour: 'numeric',
+	minute: 'numeric',
+	second: 'numeric',
+}
+
 //node index.js
-const client = new tmi.Client(options)
+const client = new tmi.Client(tmiOptions)
 client.connect().catch(console.error)
 
 Date.prototype.timeNow = function (includeSeconds = true) {
@@ -25,16 +35,7 @@ Date.prototype.timeNow = function (includeSeconds = true) {
 	return `${hours}:${minutes}${includeSeconds ? `:${seconds}` : ''}`
 }
 
-const options = {
-	timeZone: 'Europe/Prague',
-	year: 'numeric',
-	month: 'numeric',
-	day: 'numeric',
-	hour: 'numeric',
-	minute: 'numeric',
-	second: 'numeric',
-}
-const dateFormatter = new Intl.DateTimeFormat([], options)
+const dateFormatter = new Intl.DateTimeFormat([], dateFormatterOptions)
 
 //client.on('connected', () => {
 //   client.say(channel, `${username} nojo zmrde už jsem tady!`);
