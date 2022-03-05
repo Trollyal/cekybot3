@@ -129,7 +129,7 @@ const commands = {
 			const num = hraxd()
 			client.say(channel, `Tato hra je ${num}/10 zalud5Head`)
 		},
-	}
+	},
 	madmonq: {
 		fnc: ({ client, channel }) => {
 			client.say(
@@ -227,7 +227,10 @@ function executeCommand(command, user, client, channel) {
 
 	// check if command is off cooldown
 	if (!!cooldownMap[commandName]) {
-		client.say(channel, `@${user.username} dej mi chvilku na vydejchnutí zaludWeird`)
+		client.say(
+			channel,
+			`@${user.username} dej mi chvilku na vydejchnutí zaludWeird`
+		)
 		return
 	}
 
@@ -236,12 +239,14 @@ function executeCommand(command, user, client, channel) {
 
 	// execute command function
 	commands[commandName].fnc({ user, client, channel, rest })
-	
+
 	// set command on cooldown
 	cooldownMap[commandName] = true
- 
+
 	// setup timeout to put command off cooldown after specified time
-	setTimeout(() => { cooldownMap[commandName] = false }, cd)
+	setTimeout(() => {
+		cooldownMap[commandName] = false
+	}, cd)
 }
 
 // map for command cooldowns, leave empty!
