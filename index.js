@@ -107,7 +107,7 @@ const jokes = [
 	'„Chcete slyšet vtip o České poště?“ „Jojo, klidně.“ „Tak dobře, ale nevím, jestli vám to dojde...“',
 ]
 
-// base cooldown is 30 seconds, if specific needed add 'cooldown: <milliseconds>' to the command object
+// base cooldown is 30 seconds, if specific needed add 'cooldown: <!SECONDS!>' to the command object
 const commands = {
 	zaludcommands: {
 		fnc: ({ client, channel }) => {
@@ -122,7 +122,7 @@ const commands = {
 			const num = rollDice()
 			client.say(channel, `Tvrzení, že ${rest}, je na ${num}% správné zaludE`)
 		},
-		cooldown: 6000000,
+		cooldown: 1800,
 	},
 	hodnoceni: {
 		fnc: ({ client, channel }) => {
@@ -143,7 +143,7 @@ const commands = {
 			client.say(channel, `agr1 agr2`)
 			setTimeout(() => {
 				client.say(channel, `agr3 agr4`)
-			}, 2500)
+			}, 2000)
 		},
 	},
 	gn: {
@@ -160,14 +160,14 @@ const commands = {
 		fnc: ({ client, channel }) => {
 			client.say(channel, getRandomItemFromArray(jokes))
 		},
-		cooldown: 600000,
+		cooldown: 600,
 	},
 	cas: {
 		fnc: ({ client, channel }) => {
 			const currentdate = dateFormatter.format(new Date())
 			const datetime = new Date().timeNow(false)
 
-			client.say(channel, `kristova noho🦶, ono už je ${datetime}`)
+			client.say(channel, `Kristova noho🦶, ono už je ${datetime}`)
 		},
 	},
 	kdoudelalcekybota: {
@@ -226,16 +226,10 @@ function executeCommand(command, user, client, channel) {
 	if (!commands[commandName] || !commands[commandName].fnc) return
 
 	// check if command is off cooldown
-	if (!!cooldownMap[commandName]) {
-		client.say(
-			channel,
-			`@${user.username} dej mi chvilku na vydejchnutí zaludWeird`
-		)
-		return
-	}
+	if (!!cooldownMap[commandName]) return
 
 	// define cooldown (default 30 seconds)
-	const cd = commands[commandName].cooldown || 30000
+	const cd = (commands[commandName].cooldown || 30) * 1000
 
 	// execute command function
 	commands[commandName].fnc({ user, client, channel, rest })
