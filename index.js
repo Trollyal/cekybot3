@@ -226,7 +226,10 @@ function executeCommand(command, user, client, channel) {
 	if (!commands[commandName] || !commands[commandName].fnc) return
 
 	// check if command is off cooldown
-	if (!!cooldownMap[commandName]) return
+	if (!!cooldownMap[commandName]) {
+		client.say(channel, `@${user.username} dej mi chvilku na vydejchnutí zaludWeird`)
+		return
+	}
 
 	// define cooldown (default 30 seconds)
 	const cd = commands[commandName].cooldown || 30000
