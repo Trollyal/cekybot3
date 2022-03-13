@@ -1,5 +1,6 @@
-const tmi = require('tmi.js')
 const fetch = require('node-fetch')
+
+const tmi = require('tmi.js')
 const { channel, username, password } = require('./settings.json')
 
 const tmiOptions = {
