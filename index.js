@@ -1,5 +1,5 @@
-const tmi = require('tmi.js'),
-	{ channel, username, password } = require('./settings.json')
+const tmi = require('tmi.js')
+const { channel, username, password } = require('./settings.json')
 
 const tmiOptions = {
 	options: { debug: true },
@@ -42,8 +42,11 @@ const dateFormatter = new Intl.DateTimeFormat([], dateFormatterOptions)
 //});
 
 client.on('subscription', function (channel, username, methods) {
-	client.say(channel, username + 'kristova noho, dík za sub')
+	client.say(channel, username + ' kristova noho, dík za sub <3')
 })
+//client.on('resub', function (channel, username, methods) {
+//	client.say(channel, username + ' ty kráso, tolik měsíců zaludW')
+//})
 
 client.on('message', (channel, user, message, self) => {
 	if (self) return
@@ -79,6 +82,48 @@ client.on('message', (channel, user, message, self) => {
 		if (message.includes('žalud')) {
 			client.say(channel, `@${username} zaludWeird`)
 		}
+		if (message.includes(' !ááá')) {
+			var jmeno = message.split(' ')[0]
+			client.say(
+				channel,
+				`agrKUK ááá ty debílku ${jmeno} , nojo zmrde já tě vidim`
+			)
+		}
+
+		if (message.includes(' !mlady')) {
+			var jmeno = message.split(' ')[0]
+			client.say(channel, `MLADY 🌹 ${jmeno}`)
+		}
+		if (message.includes('!mlady ')) {
+			var jmeno = message.split(' ')[1]
+			client.say(channel, `MLADY 🌹 ${jmeno}`)
+		}
+		if (message == '!cojezaden') {
+			;(function () {
+				var days = [
+					'Neděle',
+					'Pondělí',
+					'Úterý',
+					'Středa',
+					'Čtvrtek',
+					'Pátek',
+					'Sobota',
+				]
+
+				Date.prototype.getDayName = function () {
+					return days[this.getDay()]
+				}
+			})()
+
+			var now = new Date()
+
+			var day = now.getDayName()
+			client.say(channel, `Dneska je ${day} :)`)
+		}
+		if (message.includes(' !gn')) {
+			var jmeno = message.split(' ')[0]
+			client.say(channel, `zaludBedge ${jmeno} Dobrou noc 🌃`)
+		}
 	} catch (err) {
 		console.log(err)
 	}
@@ -86,7 +131,7 @@ client.on('message', (channel, user, message, self) => {
 
 // Constants
 const jokes = [
-	'Servis hudebních nástrojů, dpovědný vedoucí: Ing. Prokop Buben',
+	'Servis hudebních nástrojů, odpovědný vedoucí: Ing. Prokop Buben',
 	'Víte jak se jmenuje had, který vypráví vtipy? Hahad',
 	'Víš, jak se kouzelník utírá na záchodě? Normálně – trikem.',
 	'Pepíček dostal k narozeninám granát a je z toho celý pryč.',
@@ -105,6 +150,12 @@ const jokes = [
 	'Víte, jak se smějou dřevorubci? Řežou se smíchy.',
 	'„Máš dneska čas?“ „Ne, jdu si koupit brýle.“ „A potom?“ „Potom uvidím.“',
 	'„Chcete slyšet vtip o České poště?“ „Jojo, klidně.“ „Tak dobře, ale nevím, jestli vám to dojde...“',
+	'Víte, kdy je muž naivní? Při sexu – jedná se totiž o situaci, při které je na i v ní.',
+	'Nanosekunda = dámské přirození na čichovém orgánu?',
+	'Když se natáčel Kameňák, bylo na place zakázáno kouřit… A když už, tak JENOM TROŠKU.',
+	'Kdy je muž NAIVNÍ? Při souloži - když je NA I V NÍ.',
+	'Proč ženy během milostné předehry ani nemrknou? Protože to nestihnou.',
+	'Příjde cápek do baru',
 ]
 
 // base cooldown is 30 seconds, if specific needed add 'cooldown: <!SECONDS!>' to the command object
@@ -113,7 +164,7 @@ const commands = {
 		fnc: ({ client, channel }) => {
 			client.say(
 				channel,
-				`!zalud <tvrzení>, !hodnoceni, !madmonq, !velkyagrLULE, !gn <jmeno>, !mlady <jmeno>, !vtip, !cas, !kdoudelalcekybota :)`
+				`!zalud <tvrzení>, !hodnoceni, !madmonq, !velkyagrLULE, !gn <jmeno>, !mlady <jmeno>, !vtip, !cas, !cojezaden, !kdoudelalcekybota :)`
 			)
 		},
 	},
@@ -122,7 +173,7 @@ const commands = {
 			const num = rollDice()
 			client.say(channel, `Tvrzení, že ${rest}, je na ${num}% správné zaludE`)
 		},
-		cooldown: 1800,
+		cooldown: 600,
 	},
 	hodnoceni: {
 		fnc: ({ client, channel }) => {
@@ -138,6 +189,14 @@ const commands = {
 			)
 		},
 	},
+	madmong: {
+		fnc: ({ client, channel }) => {
+			client.say(
+				channel,
+				`zaludE Čau frajeři, tady Žalud 🌰, dneska jsem v lese 🌳🌳, a jsem teda zase zpátky, tentokrát s Madmonqama FeelsAmazingMan 💊 madmonq.gg/agraelus`
+			)
+		},
+	},
 	velkyagrLULE: {
 		fnc: ({ client, channel }) => {
 			client.say(channel, `agr1 agr2`)
@@ -146,33 +205,63 @@ const commands = {
 			}, 2000)
 		},
 	},
-	gn: {
-		fnc: ({ client, channel, rest }) => {
-			client.say(channel, `${rest} zaludBedge Dobrou noc 🌃`)
-		},
-	},
-	mlady: {
-		fnc: ({ client, channel, rest }) => {
-			client.say(channel, `MLADY 🌹 ${rest}`)
+	eth: {
+		fnc: async ({ client, channel }) => {
+			const ethPrice = await getCrypto('ETH')
+
+			client.say(channel, ` cena etherea je ${ethPrice}$`)
 		},
 	},
 	vtip: {
 		fnc: ({ client, channel }) => {
 			client.say(channel, getRandomItemFromArray(jokes))
 		},
-		cooldown: 600,
+		cooldown: 300,
 	},
 	cas: {
 		fnc: ({ client, channel }) => {
-			const currentdate = dateFormatter.format(new Date())
-			const datetime = new Date().timeNow(false)
-
-			client.say(channel, `Kristova noho🦶, ono už je ${datetime}`)
+			Date.prototype.timeNow = function () {
+				return (
+					(this.getHours() < 10 ? '0' : '') +
+					this.getHours() +
+					':' +
+					(this.getMinutes() < 10 ? '0' : '') +
+					this.getMinutes() +
+					':' +
+					(this.getSeconds() < 10 ? '0' : '') +
+					this.getSeconds()
+				)
+			}
+			var datetimet = new Date().timeNow()
+			var res = datetimet.substring(0, 5)
+			client.say(channel, `Kristova noho, ono už je ${res}`)
+		},
+	},
+	čas: {
+		fnc: ({ client, channel }) => {
+			Date.prototype.timeNow = function () {
+				return (
+					(this.getHours() < 10 ? '0' : '') +
+					this.getHours() +
+					':' +
+					(this.getMinutes() < 10 ? '0' : '') +
+					this.getMinutes() +
+					':' +
+					(this.getSeconds() < 10 ? '0' : '') +
+					this.getSeconds()
+				)
+			}
+			var datetimet = new Date().timeNow()
+			var res = datetimet.substring(0, 5)
+			client.say(channel, `Kristova noho, ono už je ${res}`)
 		},
 	},
 	kdoudelalcekybota: {
 		fnc: ({ client, channel, user }) => {
-			client.say(channel, `@${user.username} ctrlv.cz/NeXE`)
+			client.say(
+				channel,
+				`@${user.username} ctrlv.cz/NeXE toyotomi s @trollyal agrLULE`
+			)
 		},
 	},
 }
@@ -180,7 +269,7 @@ const commands = {
 const messageCategoriesMatcher = {
 	greeting: /(ahoj)|(čau)|(čus)|(zdar)|(nazdar)/,
 	offensive: /(zabij se)|(mrdko)|(chc[í|i]pni)/,
-	hug: /(dankHug)/,
+	hug: /(dankHug)|(, dankHug)/,
 }
 
 const responseDictionary = {
@@ -245,3 +334,19 @@ function executeCommand(command, user, client, channel) {
 
 // map for command cooldowns, leave empty!
 const cooldownMap = {}
+
+async function getCrypto(cryptoTag) {
+	try {
+		const crypto = await fetch(
+			`https://api.blockchain.com/v3/exchange/tickers/${cryptoTag}-USD`
+		)
+
+		const response = await crypto.json()
+
+		const price = response.last_trade_price
+
+		return response
+	} catch (err) {
+		console.log(err)
+	}
+}
