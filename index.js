@@ -207,7 +207,7 @@ const commands = {
 	},
 	eth: {
 		fnc: async ({ client, channel }) => {
-			const price = getCrypto('ETH')
+			const price = await getCrypto('ETH')
 			client.say(channel, `Cena etherea je ${price}$ no kristovy rány!`)
 		},
 	},
