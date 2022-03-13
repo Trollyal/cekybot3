@@ -206,10 +206,9 @@ const commands = {
 		},
 	},
 	eth: {
-		fnc: ({ client, channel }) => {
-			getCrypto('ETH').then((price) => {
-				client.say(channel, `Cena etherea je ${price}$ no kristovy rány!`)
-			})
+		fnc: async ({ client, channel }) => {
+			const price = getCrypto('ETH')
+			client.say(channel, `Cena etherea je ${price}$ no kristovy rány!`)
 		},
 	},
 	vtip: {
@@ -345,7 +344,7 @@ async function getCrypto(cryptoTag) {
 
 		const price = response.last_trade_price
 
-		return response
+		return price
 	} catch (err) {
 		console.log(err)
 	}
