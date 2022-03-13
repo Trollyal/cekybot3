@@ -206,10 +206,10 @@ const commands = {
 		},
 	},
 	eth: {
-		fnc: async ({ client, channel }) => {
-			const ethPrice = await getCrypto('ETH')
-
-			client.say(channel, ` cena etherea je ${ethPrice}$`)
+		fnc: ({ client, channel }) => {
+			getCrypto('ETH').then((price) => {
+				client.say(channel, ` cena etherea je ${ethPrice}$`)
+			})
 		},
 	},
 	vtip: {
