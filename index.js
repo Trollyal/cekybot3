@@ -208,7 +208,7 @@ const commands = {
 	eth: {
 		fnc: ({ client, channel }) => {
 			getCrypto('ETH').then((price) => {
-				client.say(channel, ` cena etherea je ${ethPrice}$`)
+				client.say(channel, `Cena etherea je ${price}$ no kristovy rány!`)
 			})
 		},
 	},
